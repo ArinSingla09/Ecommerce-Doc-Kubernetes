@@ -1,0 +1,29 @@
+services:
+  products:
+    build: ./products
+    environment: { PORT: "8001" }
+  search:
+    build: ./search
+    environment: { PORT: "8002", PRODUCTS_URL: "http://products:8001" }
+    depends_on: [products]
+  cart:
+    build: ./cart
+    environment: { PORT: "8003", PRODUCTS_URL: "http://products:8001" }
+    depends_on: [products]
+  orders:
+    build: ./orders
+    environment: { PORT: "8004" }
+  recommendations:
+    build: ./recommendations
+    environment: { PORT: "8005", PRODUCTS_URL: "http://products:8001" }
+    depends_on: [products]
+  chat:
+    build: ./chat
+    environment: { PORT: "8006", PRODUCTS_URL: "http://products:8001", SEARCH_URL: "http://search:8002", RECOMMENDATIONS_URL: "http://recommendations:8005" }
+    depends_on: [products, search, recommendations]
+  gateway:
+    build: ./gateway
+    ports: ["8080:80"]
+    depends_on: [frontend, products, search, cart, orders, recommendations, chat]
+  frontend:
+    build: ./frontend

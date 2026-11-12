@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shopsphere-config
+  namespace: shopsphere
+data:
+  PRODUCTS_URL: "http://products:8001"
+  SEARCH_URL: "http://search:8002"
+  RECOMMENDATIONS_URL: "http://recommendations:8005"
